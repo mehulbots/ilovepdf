@@ -266,7 +266,7 @@ async def main():
 
     await app.start()
     await idle()  # <-- this keeps the bot alive until Ctrl+C or stop signal
-    await app.stop(
+    await app.stop()
 
 
 if __name__ == "__main__":
