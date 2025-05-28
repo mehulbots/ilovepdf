@@ -34,13 +34,16 @@ pyTgLovePDF = async_telebot.AsyncTeleBot(bot.API_TOKEN, parse_mode="Markdown")
 async def start_polling():
     print("Starting async polling...")
     await pyTgLovePDF.polling()
+    print("STARTED POLLING")
 
 def main():
     asyncio.run(start_polling())
 
+    print("RUNNED")
+
 if __name__ == "__main__":
     main()
-
+    print("RUNNING..")
 
 # If you have any questions or suggestions, please feel free to reach out.
 # Together, we can make this project even better, Happy coding!  XD
