@@ -2,12 +2,13 @@
 # Feel free to use and contribute to this project. Your contributions are welcome!
 # copyright ©️ 2021 nabilanavab
 
+
 file_name = "ILovePDF/setup.py"
 
 from setuptools import setup, find_packages
 
 setup(
-    name="nabilanava/ilovepdf",
+    name="nabilanavab/ilovepdf",
     version="5.0.1",
     description="Telegram PDF Bot",
     author="Nabil A Navab",
@@ -43,6 +44,7 @@ setup(
         "Operating System :: OS Independent",
     ],
 )
+
 
 # If you have any questions or suggestions, please feel free to reach out.
 # Together, we can make this project even better, Happy coding!  XD

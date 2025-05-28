@@ -7,7 +7,7 @@ file_name = "ILovePDF/plugins/dm/callBack/__index__.py"
 from plugins import *
 from plugins.utils import *
 from .file_process import *
-from configs.config import images
+from configs.config import images, settings
 
 
 index = filters.create(lambda _, __, query: query.data.startswith("#"))
@@ -33,7 +33,8 @@ async def __index__(bot, callbackQuery):
         ):
             await work.work(callbackQuery, "delete", False)
             return await callbackQuery.message.reply_text(
-                "#old_queue 💔\n\n`try by sending new file`", reply_markup=_, quote=True
+                "#old_queue 💔\n\n`try by sending new file`",
+                reply_markup=_, quote=True
             )
 
         elif data == "rot360":
@@ -110,7 +111,7 @@ async def __index__(bot, callbackQuery):
             notExit, imageList = await pdfToImages.askimageList(
                 bot,
                 callbackQuery,
-                question=CHUNK["askImage"],
+                question=CHUNK["pyromodASK_4"],
                 limit=int(callbackQuery.message.text.split("•")[1])
                 if "•" in callbackQuery.message.text
                 else 1000,
@@ -141,7 +142,7 @@ async def __index__(bot, callbackQuery):
                 return await watermark.reply(CHUNK["exit"], quote=True)
         elif data == "partPDF":
             notExit, splitData = await partPDF.askPartPdf(
-                bot, callbackQuery, question=CHUNK["pyromodASK_3"],
+                bot, callbackQuery, question=CHUNK["askImage"],
                 limit=int(callbackQuery.message.text.split("•")[1])
                 if "•" in callbackQuery.message.text else None
             )
@@ -222,7 +223,9 @@ async def __index__(bot, callbackQuery):
             )
 
         elif data == "ocr":
-            isSuccess, output_file = await ocrPDF.ocrPDF(input_file=input_file)
+            isSuccess, output_file = await ocrPDF.ocrPDF(
+                input_file=input_file,  cDIR=cDIR
+            )
 
         elif data == "baw":
             isSuccess, output_file = await blackAndWhitePdf.blackAndWhitePdf(
@@ -410,7 +413,7 @@ async def __index__(bot, callbackQuery):
             location = await bot.download_media(
                 message=THUMBNAIL, file_name=f"{cDIR}/temp.jpeg"
             )
-            THUMBNAIL = await formatThumb(location)
+            THUMBNAIL = await fncta.formatThumb(location)
 
         # caption for "encrypt", "rename"
         if data == "encrypt":
@@ -445,6 +448,10 @@ async def __index__(bot, callbackQuery):
 
         await callbackQuery.message.reply_chat_action(enums.ChatAction.UPLOAD_DOCUMENT)
 
+        _COFFEE, COFFEE = await util.translate(
+            button="feedbackMsg['button']", lang_code=lang_code
+        )
+
         if data == "partPDF":
             docs = [os.path.join(cDIR, file) for file in os.listdir(cDIR)]
             docs.sort(key=os.path.getctime)
@@ -456,6 +463,7 @@ async def __index__(bot, callbackQuery):
                     document=_file,
                     thumb=THUMBNAIL,
                     caption=f"`part: {_index+1}`\n\n{FILE_CAPT}",
+                    reply_markup=COFFEE if settings.COFFEE else None,
                     progress=render._progress,
                     progress_args=(dlMSG, time.time()),
                 )
@@ -467,6 +475,7 @@ async def __index__(bot, callbackQuery):
                 if os.path.splitext(FILE_NAME)[1]
                 else f"{FILE_NAME}.pdf",
                 quote=True,
+                reply_markup=COFFEE,
                 document=output_file,
                 thumb=THUMBNAIL,
                 caption=f"{_caption}\n\n{FILE_CAPT}",
