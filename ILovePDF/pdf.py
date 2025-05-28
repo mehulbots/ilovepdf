@@ -17,11 +17,30 @@ works = {"u": [], "g": []}  # broken works
 pyTgLovePDF = async_telebot.AsyncTeleBot(bot.API_TOKEN, parse_mode="Markdown")
 # TELEBOT (pyTelegramBotAPI) Asyncio [for uploading group doc, imgs]
 
-async def main():
-  asyncio.run(await pyTgLovePDF.polling())
-  print("ASYNCIO RUNNING")
+# ILovePDF/pdf.py
 
-await main()
+from configs.config import bot
+from telebot import async_telebot
+import asyncio
+
+# GLOBAL VARIABLES
+PDF = {}  # save images for generating pdf
+works = {"u": [], "g": []}  # broken works
+
+# Async Telebot initialization
+pyTgLovePDF = async_telebot.AsyncTeleBot(bot.API_TOKEN, parse_mode="Markdown")
+
+# ---- polling STARTS HERE ----
+async def start_polling():
+    print("Starting async polling...")
+    await pyTgLovePDF.polling()
+
+def main():
+    asyncio.run(start_polling())
+
+if __name__ == "__main__":
+    main()
+
 
 # If you have any questions or suggestions, please feel free to reach out.
 # Together, we can make this project even better, Happy coding!  XD
