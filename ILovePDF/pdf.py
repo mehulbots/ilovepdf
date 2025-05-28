@@ -21,6 +21,8 @@ async def main():
   asyncio.run(await pyTgLovePDF.polling())
   print("ASYNCIO RUNNING")
 
+main()
+
 # If you have any questions or suggestions, please feel free to reach out.
 # Together, we can make this project even better, Happy coding!  XD
 
