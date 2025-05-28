@@ -265,10 +265,13 @@ async def main():
         loop.add_signal_handler(sig, lambda: asyncio.create_task(app.stop()))
 
     await app.start()
+    await idle()  # <-- this keeps the bot alive until Ctrl+C or stop signal
+    await app.stop(
 
 
 if __name__ == "__main__":
     asyncio.run(main())
+    
 
 
 
