@@ -30,6 +30,25 @@ logging.basicConfig(
     format = "[%(asctime)s - %(name)s] : %(levelname)s - %(message)s",
 )
 
+# logger.py
+
+import logging
+import os
+
+if not os.path.isdir("logs"):
+    os.makedirs("logs")
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="[{asctime} - {name} | {levelname}] - {message}",
+    style="{",
+    handlers=[
+        logging.FileHandler("logs/bot.log", encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger("root")
 
 # If you have any questions or suggestions, please feel free to reach out.
 # Together, we can make this project even better, Happy coding!  XD
