@@ -259,9 +259,10 @@ if __name__ == "__main__":
     os.makedirs("work/nabilanavab")
 
     # Initialize and run the bot
+    # app = Bot()
+    # app.run()
     app = Bot()
-    app.run()
-
+    asyncio.run(app.start())  
 
 # If you have any questions or suggestions, please feel free to reach out.
 # Together, we can make this project even better, Happy coding!  XD
