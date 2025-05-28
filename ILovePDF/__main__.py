@@ -18,6 +18,9 @@ iLovePDF = '''
 import asyncio
 import os
 import shutil
+
+from pyrogram import idle
+
 import sys
 import signal
 
