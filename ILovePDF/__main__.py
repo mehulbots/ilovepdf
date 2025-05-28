@@ -233,36 +233,70 @@ class Bot(ILovePDF):
     async def stop(self, *args):
         await super().stop()
 
+import signal
 
-if __name__ == "__main__":
+async def main():
     # Define the path for the work directory
-    work_path: str = f"{os.path.abspath(os.getcwd())}/work/nabilanavab"
+    work_path = f"{os.path.abspath(os.getcwd())}/work/nabilanavab"
 
     # Check if the work directory exists
     if os.path.exists(work_path):
-
-        # Iterate through chats in the directory
-        for chat in os.listdir("work/nabilanavab"):
-
+        for chat in os.listdir(work_path):
             if f"{chat}".startswith("-100"):
-                # Append group chat data
                 works["g"].append(
-                    [chat, [user for user in os.listdir(f"work/nabilanavab/{chat}")]]
+                    [chat, [user for user in os.listdir(f"{work_path}/{chat}")]]
                 )
             else:
                 works["u"].append(chat)
-        
-        # Remove the entire work directory
-        shutil.rmtree(f"{os.path.abspath(os.getcwd())}/work")
 
-    # Create the work directory again
-    os.makedirs("work/nabilanavab")
+        shutil.rmtree(os.path.abspath(os.getcwd()) + "/work")
 
-    # Initialize and run the bot
-    # app = Bot()
-    # app.run()
+    os.makedirs(work_path)
+
+    # Start the bot
     app = Bot()
-    asyncio.run(app.start())  
 
-# If you have any questions or suggestions, please feel free to reach out.
-# Together, we can make this project even better, Happy coding!  XD
+    # Handle graceful shutdown (e.g. Ctrl+C)
+    loop = asyncio.get_running_loop()
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        loop.add_signal_handler(sig, lambda: asyncio.create_task(app.stop()))
+
+    await app.start()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
+
+
+# if __name__ == "__main__":
+#     # Define the path for the work directory
+#     work_path: str = f"{os.path.abspath(os.getcwd())}/work/nabilanavab"
+
+#     # Check if the work directory exists
+#     if os.path.exists(work_path):
+
+#         # Iterate through chats in the directory
+#         for chat in os.listdir("work/nabilanavab"):
+
+#             if f"{chat}".startswith("-100"):
+#                 # Append group chat data
+#                 works["g"].append(
+#                     [chat, [user for user in os.listdir(f"work/nabilanavab/{chat}")]]
+#                 )
+#             else:
+#                 works["u"].append(chat)
+        
+#         # Remove the entire work directory
+#         shutil.rmtree(f"{os.path.abspath(os.getcwd())}/work")
+
+#     # Create the work directory again
+#     os.makedirs("work/nabilanavab")
+
+#     # Initialize and run the bot
+#     # app = Bot()
+#     # app.run()
+#     app = Bot()
+#     asyncio.run(app.start())  
+
+# # If you have any questions or suggestions, please feel free to reach out.
+# # Together, we can make this project even better, Happy coding!  XD
